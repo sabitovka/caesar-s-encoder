@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Encryptor {
 
@@ -20,10 +21,6 @@ public class Encryptor {
         // заполняем массив алфватом (1040 - Код Юникод символа А, 1071 - Код символа Я)
         for (int i = 1040; i <= 1071; i++) {
             alphabetTemplate.add( (char) i );
-        }
-
-        // заполняем список пустыми значениями
-        for (int i = 0; i < alphabetTemplate.size(); i++) {
             cryptStringTemplate.add((char) 0);
         }
 
@@ -45,12 +42,16 @@ public class Encryptor {
             indexOfAlphabet = indexOfAlphabet+1 >= 32 ? 0 : indexOfAlphabet+1;
         }
 
-        System.out.println("Шаблон алфавита: " + alphabetTemplate);
-        System.out.println("Шаблон зашифрованного сообщения: " + cryptStringTemplate);
+        System.out.println("Шаблон алфавита: \t\t\t\t\t" + alphabetTemplate);
+        System.out.println("Шаблон зашифрованного алфавита: \t" + cryptStringTemplate);
     }
 
     public String encryptMessage(String message) {
-
-        return null;
+        // приводим к верхнему регистру, делим на массив
+        // собираем все в строку с помощью индексации по известным значениям
+        return Stream.of(message.toUpperCase().split(""))
+                .reduce("",
+                        (s, s2) -> s += alphabetTemplate.indexOf(s2.charAt(0)) != -1 ?
+                                                    cryptStringTemplate.get(alphabetTemplate.indexOf(s2.charAt(0))) : " ");
     }
 }
