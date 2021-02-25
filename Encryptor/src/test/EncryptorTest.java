@@ -1,10 +1,9 @@
 import exceptions.KeyOutOfBoundException;
+import exceptions.NonCyrillicKeywordException;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 
 public class EncryptorTest {
-
-    private Encryptor encryptor;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -79,7 +78,34 @@ public class EncryptorTest {
     public void whenCreateEncryptorWithKey31ThenCreateRightAlphabet() {
         System.out.println("Создание объекта Encryptor с key=31. Ожидается Создание правильного алфавита");
         Encryptor encryptor = new Encryptor(31, "ШИФРОВАНИЕПРИЗНАК");
-        Assert.assertTrue(true);
+        Assert.assertEquals("ЙЛПРАС", encryptor.encryptMessage("Привет"));
+    }
+
+    @Test
+    public void whenCreateEncryptorWithKeyThatContainsSpacesThenRemoveThey() {
+        Encryptor encryptor = new Encryptor(3, "ШИФРОВАНИЕ ПРИЗНАК");
+    }
+
+    @Test
+    public void whenCreateEncryptorWithNonCyrillicKeywordThenThrowNonCyrillicKeywordException() {
+        thrown.expect(NonCyrillicKeywordException.class);
+        thrown.expectMessage("The keyword contains non cyrillic chars");
+        new Encryptor(3, "Hi");
+    }
+
+    @Test
+    public void whenEncryptEmptyMessageThenReturnEmptyString() {
+        Encryptor encryptor = new Encryptor(31, "ШИФРОВАНИЕ");
+        Assert.assertEquals("", encryptor.encryptMessage(""));
+    }
+
+    @Test
+    public void whenEncryptMsgWithNonCyrillicCharsThenReturnOnlyCyrillicCharsOrEmptyString() {
+        Encryptor encryptor = new Encryptor(3, "ШИФРОВАНИЕ");
+        String msg1 = "Hello Мир!";
+        String msg2 = "Hello, World!";
+        Assert.assertEquals("БВЗ", encryptor.encryptMessage(msg1));
+        Assert.assertEquals("", encryptor.encryptMessage(msg2));
     }
 
     @AfterClass

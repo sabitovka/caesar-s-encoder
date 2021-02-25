@@ -1,4 +1,5 @@
 import exceptions.KeyOutOfBoundException;
+import exceptions.NonCyrillicKeywordException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,10 @@ public class Encryptor {
     public Encryptor(int key, String keyword) throws KeyOutOfBoundException {
         if (key < 0 || key >= 32) {
             throw new KeyOutOfBoundException("Key must be in 0..31");
+        }
+        keyword = keyword.replaceAll("\\s+", "").trim();
+        if (Stream.of(keyword.split("")).anyMatch(s -> !s.isEmpty() && (s.charAt(0) < 1040 || s.charAt(0) > 1103))) {
+            throw new NonCyrillicKeywordException("The keyword contains non cyrillic chars");
         }
         this.key = key;
         this.keyword = keyword.toUpperCase();
@@ -56,9 +61,17 @@ public class Encryptor {
     public String encryptMessage(String message) {
         // приводим к верхнему регистру, делим на массив
         // собираем все в строку с помощью индексации по известным значениям
+        if (message.isEmpty()) {
+            return "";
+        }
         return Stream.of(message.toUpperCase().split(""))
-                .reduce("",
-                        (s, s2) -> s += alphabetTemplate.indexOf(s2.charAt(0)) != -1 ?
-                                                    cryptStringTemplate.get(alphabetTemplate.indexOf(s2.charAt(0))) : " ");
+                .reduce("", (s, s2) -> {
+                    s += (!s2.isEmpty() && alphabetTemplate.indexOf(s2.charAt(0)) != -1) ?
+                            cryptStringTemplate.get(alphabetTemplate.indexOf(s2.charAt(0))) :
+                            " ";
+                    return s;
+                })
+                .replaceAll("\\s+", " ")
+                .trim();
     }
 }
