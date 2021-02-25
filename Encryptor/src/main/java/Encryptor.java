@@ -1,3 +1,5 @@
+import exceptions.KeyOutOfBoundException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -10,7 +12,10 @@ public class Encryptor {
     private int key;// ключ
     private String keyword; // ключевое слово
 
-    public Encryptor(int key, String keyword) {
+    public Encryptor(int key, String keyword) throws KeyOutOfBoundException {
+        if (key < 0 || key >= 32) {
+            throw new KeyOutOfBoundException("Key must be in 0..31");
+        }
         this.key = key;
         this.keyword = keyword.toUpperCase();
         setupCryptTemplate();
@@ -28,18 +33,20 @@ public class Encryptor {
         int pos = key;
         for (int i = 0; i < keyword.length(); i++) {
             if (!cryptStringTemplate.contains(keyword.charAt(i))) {
-                cryptStringTemplate.set(pos++, keyword.charAt(i));
+                cryptStringTemplate.set(pos, keyword.charAt(i));
+                pos = pos+1 >= 32 ? 0 : pos+1;
             }
         }
 
         // дописывваем остальны буквы алфавита
         int indexOfAlphabet = 0;
-        while(pos != key) {
+
+        while(pos != key || indexOfAlphabet != 32) {
             if (!cryptStringTemplate.contains(alphabetTemplate.get(indexOfAlphabet))) {
                 cryptStringTemplate.set(pos, alphabetTemplate.get(indexOfAlphabet));
                 pos = pos+1 >= 32 ? 0 : pos+1;
             }
-            indexOfAlphabet = indexOfAlphabet+1 >= 32 ? 0 : indexOfAlphabet+1;
+            indexOfAlphabet++;/* = indexOfAlphabet+1 >= 32 ? 0 : indexOfAlphabet+1*/
         }
 
         System.out.println("Шаблон алфавита: \t\t\t\t\t" + alphabetTemplate);

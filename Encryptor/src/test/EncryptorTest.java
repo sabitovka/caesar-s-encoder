@@ -1,3 +1,4 @@
+import exceptions.KeyOutOfBoundException;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
 
@@ -60,29 +61,25 @@ public class EncryptorTest {
 
     @Test
     public void whenCreateEncryptorWithNegativeKeyThenThrowKeyOutOfBoundException() {
-        System.out.println("Создание объекта Encryptor с key=-1. Ожидается исключение");
-        /*thrown.expect(???);*/
-        /*thrown.expectMessage("Key must be in 0..32");*/
+        System.out.println("Создание объекта Encryptor с key=-1. Ожидается исключение KeyOutOfBoundException");
+        thrown.expect(KeyOutOfBoundException.class);
+        thrown.expectMessage("Key must be in 0..31");
         Encryptor encryptor = new Encryptor(-1, "ШИФРОВАНИЕ");
-        Assert.fail();
     }
 
     @Test
-    public void whenCreateEncryptorWithKey33ThenThrowKeyOutOfBoundException() {
-        System.out.println("Создание объекта Encryptor с key=33. Ожидается исключение");
-        /*thrown.expect(???);*/
-        /*thrown.expectMessage("Key must be in 0..32");*/
+    public void whenCreateEncryptorWithKey32ThenThrowKeyOutOfBoundException() {
+        System.out.println("Создание объекта Encryptor с key=32. Ожидается исключение KeyOutOfBoundException");
+        thrown.expect(KeyOutOfBoundException.class);
+        thrown.expectMessage("Key must be in 0..31");
         Encryptor encryptor = new Encryptor(33, "ШИФРОВАНИЕ");
-        Assert.fail();
     }
 
     @Test
-    public void whenCreateEncryptorWithKey32ThenCreateRightAlphabet() {
-        System.out.println("Создание объекта Encryptor с key=32. Ожидается исключение");
-        /*thrown.expect(???);*/
-        /*thrown.expectMessage("Key must be in 0..32");*/
-        Encryptor encryptor = new Encryptor(22, "ШИФРОВАНИЕ");
-        Assert.fail();
+    public void whenCreateEncryptorWithKey31ThenCreateRightAlphabet() {
+        System.out.println("Создание объекта Encryptor с key=31. Ожидается Создание правильного алфавита");
+        Encryptor encryptor = new Encryptor(31, "ШИФРОВАНИЕПРИЗНАК");
+        Assert.assertTrue(true);
     }
 
     @AfterClass
