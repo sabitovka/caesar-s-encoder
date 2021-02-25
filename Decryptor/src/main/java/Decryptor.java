@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Encryptor {
+public class Decryptor {
 
     private final List<Character> alphabetTemplate = new ArrayList<>();
     private List<Character> cryptStringTemplate = new ArrayList<>(32);
@@ -13,7 +13,7 @@ public class Encryptor {
     private int key;// ключ
     private String keyword; // ключевое слово
 
-    public Encryptor(int key, String keyword) throws KeyOutOfBoundException {
+    public Decryptor(int key, String keyword) {
         if (key < 0 || key >= 32) {
             throw new KeyOutOfBoundException("Key must be in 0..31");
         }
@@ -58,7 +58,7 @@ public class Encryptor {
         System.out.println("Шаблон зашифрованного алфавита: \t" + cryptStringTemplate);
     }
 
-    public String encryptMessage(String message) {
+    public String decryptMessage(String message) {
         // приводим к верхнему регистру, делим на массив
         // собираем все в строку с помощью индексации по известным значениям
         if (message.isEmpty()) {
@@ -66,12 +66,13 @@ public class Encryptor {
         }
         return Stream.of(message.toUpperCase().split(""))
                 .reduce("", (s, s2) -> {
-                    s += (!s2.isEmpty() && alphabetTemplate.indexOf(s2.charAt(0)) != -1) ?
-                            cryptStringTemplate.get(alphabetTemplate.indexOf(s2.charAt(0))) :
+                    s += (!s2.isEmpty() && cryptStringTemplate.indexOf(s2.charAt(0)) != -1) ?
+                            alphabetTemplate.get(cryptStringTemplate.indexOf(s2.charAt(0))) :
                             " ";
                     return s;
                 })
                 .replaceAll("\\s+", " ")
                 .trim();
     }
+
 }
