@@ -15,7 +15,7 @@
    <opaqueInsets>
       <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
    </opaqueInsets>
-   <Label layoutX="163.0" layoutY="14.0" prefHeight="30.0" prefWidth="409.0" text="Шифратор Цезаря" textFill="#7c4b40" AnchorPane.leftAnchor="163.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="14.0">
+   <Label layoutX="163.0" layoutY="14.0" prefHeight="30.0" prefWidth="409.0" text="Дешифратор Цезаря" textFill="#7c4b40" AnchorPane.leftAnchor="163.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="14.0">
       <font>
          <Font name="MS Gothic" size="28.0" />
       </font>
@@ -27,8 +27,8 @@
    <Spinner fx:id="keySpinner" layoutX="163.0" layoutY="107.0" prefHeight="25.0" prefWidth="86.0" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="107.0" />
    <Label layoutX="163.0" layoutY="90.0" text="Ключ" textFill="#7c4b40" AnchorPane.leftAnchor="163.0" AnchorPane.topAnchor="90.0" />
    <Label layoutX="264.0" layoutY="90.0" text="Ключевое слово" textFill="#7c4b40" AnchorPane.leftAnchor="264.0" AnchorPane.topAnchor="90.0" />
-   <TextArea fx:id="messageTextArea" layoutX="14.0" layoutY="214.0" prefHeight="169.0" prefWidth="274.0" promptText="Введите текст сообщения" wrapText="true" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="214.0" />
-   <TextArea fx:id="resultTextArea" editable="false" layoutX="295.0" layoutY="214.0" prefHeight="169.0" prefWidth="274.0" promptText="Здесь появится зашифрованное сообщение" wrapText="true" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="214.0" />
+   <TextArea fx:id="messageTextArea" layoutX="14.0" layoutY="214.0" prefHeight="169.0" prefWidth="274.0" promptText="Введите текст зашифрованного сообщения" wrapText="true" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="214.0" />
+   <TextArea fx:id="resultTextArea" editable="false" layoutX="295.0" layoutY="214.0" prefHeight="169.0" prefWidth="274.0" promptText="Здесь появится расшифрованное сообщение" wrapText="true" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="214.0" />
    <Button fx:id="transformButton" layoutX="471.0" layoutY="143.0" mnemonicParsing="false" onAction="#transformButton_Action" text="Преобразовать" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="143.0" />
    <Label fx:id="copyToClipboardLabel" layoutX="333.0" layoutY="385.0" text="Скопировано в буфер обмена" textFill="#a81414" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="83.0" />
    <Label layoutX="14.0" layoutY="199.0" text="Сообщение" textFill="#7c4b40" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="505.0" AnchorPane.topAnchor="199.0" />

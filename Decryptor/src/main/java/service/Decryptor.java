@@ -1,3 +1,5 @@
+package service;
+
 import service.exceptions.KeyOutOfBoundException;
 import service.exceptions.NonCyrillicKeywordException;
 
