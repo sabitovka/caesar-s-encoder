@@ -1,5 +1,5 @@
-import exceptions.KeyOutOfBoundException;
-import exceptions.NonCyrillicKeywordException;
+import service.exceptions.KeyOutOfBoundException;
+import service.exceptions.NonCyrillicKeywordException;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,7 +1,8 @@
-import exceptions.KeyOutOfBoundException;
-import exceptions.NonCyrillicKeywordException;
+import service.exceptions.KeyOutOfBoundException;
+import service.exceptions.NonCyrillicKeywordException;
 import org.junit.*;
 import org.junit.rules.ExpectedException;
+import service.Encryptor;
 
 public class EncryptorTest {
 
@@ -38,7 +39,7 @@ public class EncryptorTest {
 
     @Test
     public void whenCreateEncryptorWithZeroKeyThenCreateEncryptTemplateWithKeywordAtStart() {
-        System.out.println("Создание объекта Encryptor с key=0");
+        System.out.println("Создание объекта service.Encryptor с key=0");
         Encryptor encryptor = new Encryptor(0, "ШИФРОВАНИЕ");
         String message = "Привет как дела";
         System.out.println("Начальное сообщение " + message);
@@ -49,7 +50,7 @@ public class EncryptorTest {
 
     @Test
     public void whenCreateEncryptorWithZeroKeywordThenCreateEncryptTemplateLikeAlphabet() {
-        System.out.println("Создание объекта Encryptor с keyword=''");
+        System.out.println("Создание объекта service.Encryptor с keyword=''");
         Encryptor encryptor = new Encryptor(0, "");
         String message = "Привет как дела";
         System.out.println("Начальное сообщение " + message);
@@ -60,7 +61,7 @@ public class EncryptorTest {
 
     @Test
     public void whenCreateEncryptorWithNegativeKeyThenThrowKeyOutOfBoundException() {
-        System.out.println("Создание объекта Encryptor с key=-1. Ожидается исключение KeyOutOfBoundException");
+        System.out.println("Создание объекта service.Encryptor с key=-1. Ожидается исключение KeyOutOfBoundException");
         thrown.expect(KeyOutOfBoundException.class);
         thrown.expectMessage("Key must be in 0..31");
         Encryptor encryptor = new Encryptor(-1, "ШИФРОВАНИЕ");
@@ -68,7 +69,7 @@ public class EncryptorTest {
 
     @Test
     public void whenCreateEncryptorWithKey32ThenThrowKeyOutOfBoundException() {
-        System.out.println("Создание объекта Encryptor с key=32. Ожидается исключение KeyOutOfBoundException");
+        System.out.println("Создание объекта service.Encryptor с key=32. Ожидается исключение KeyOutOfBoundException");
         thrown.expect(KeyOutOfBoundException.class);
         thrown.expectMessage("Key must be in 0..31");
         Encryptor encryptor = new Encryptor(33, "ШИФРОВАНИЕ");
@@ -76,7 +77,7 @@ public class EncryptorTest {
 
     @Test
     public void whenCreateEncryptorWithKey31ThenCreateRightAlphabet() {
-        System.out.println("Создание объекта Encryptor с key=31. Ожидается Создание правильного алфавита");
+        System.out.println("Создание объекта service.Encryptor с key=31. Ожидается Создание правильного алфавита");
         Encryptor encryptor = new Encryptor(31, "ШИФРОВАНИЕПРИЗНАК");
         Assert.assertEquals("ЙЛПРАС", encryptor.encryptMessage("Привет"));
     }
