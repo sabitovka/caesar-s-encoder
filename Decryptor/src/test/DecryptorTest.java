@@ -1,5 +1,6 @@
 import org.junit.*;
 import org.junit.rules.ExpectedException;
+import service.Decryptor;
 
 import static org.junit.Assert.*;
 

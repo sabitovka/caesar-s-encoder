@@ -1,4 +1,4 @@
-package exceptions;
+package service.exceptions;
 
 public class KeyOutOfBoundException extends RuntimeException {
     public KeyOutOfBoundException(String message) {
