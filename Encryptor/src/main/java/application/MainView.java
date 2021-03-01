@@ -6,8 +6,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import service.Encryptor;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 
 public class MainView {
@@ -32,11 +39,24 @@ public class MainView {
 
     @FXML
     void transformButton_Action(ActionEvent event) {
-        System.out.println(event);
-        System.out.println(keywordTextField.getText());
-        messageTextArea.setText("Test");
-        resultTextArea.setText("Test2");
-        copyToClipboardLabel.setVisible(false);
+        copyToClipboardLabel.setVisible(true);
+        new Thread(() -> {
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            copyToClipboardLabel.setVisible(false);
+        }).start();
+
+        int key = keySpinner.getValue();
+        String keyword = keywordTextField.getText();
+        Encryptor encryptor = new Encryptor(key, keyword);
+        resultTextArea.setText(encryptor.encryptMessage(messageTextArea.getText()));
+
+        // копируем в буфер обмена
+        Toolkit.getDefaultToolkit().getSystemClipboard()
+                .setContents(new StringSelection(resultTextArea.getText()), null);
     }
 
     public static Stage newInstance(Stage primaryStage) {
