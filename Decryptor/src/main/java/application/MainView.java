@@ -12,6 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import service.Decryptor;
+import service.exceptions.NonCyrillicKeywordException;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
@@ -40,6 +41,16 @@ public class MainView {
 
     @FXML
     void transformButton_Action(ActionEvent event) {
+        try {
+            int key = keySpinner.getValue();
+            String keyword = keywordTextField.getText();
+            Decryptor encryptor = new Decryptor(key, keyword);
+            resultTextArea.setText(encryptor.decryptMessage(messageTextArea.getText()));
+        } catch (NonCyrillicKeywordException e) {
+            e.printStackTrace();
+            showErrorDialog(e);
+        }
+
         copyToClipboardLabel.setVisible(true);
         new Thread(() -> {
             try {
@@ -49,15 +60,19 @@ public class MainView {
             }
             copyToClipboardLabel.setVisible(false);
         }).start();
-
-        int key = keySpinner.getValue();
-        String keyword = keywordTextField.getText();
-        Decryptor encryptor = new Decryptor(key, keyword);
-        resultTextArea.setText(encryptor.decryptMessage(messageTextArea.getText()));
-
         // копируем в буфер обмена
         Toolkit.getDefaultToolkit().getSystemClipboard()
                 .setContents(new StringSelection(resultTextArea.getText()), null);
+    }
+
+    private void showErrorDialog(Exception e) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Ошибка");
+        if (e instanceof NonCyrillicKeywordException) {
+            alert.setHeaderText("Ошибка в ключевом слове");
+            alert.setContentText("Похоже, вы использовали некириллические символы в ключевом слове");
+        }
+        alert.showAndWait();
     }
 
     public static Stage newInstance(Stage primaryStage) {
