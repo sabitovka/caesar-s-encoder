@@ -56,8 +56,8 @@ public class Encryptor {
             indexOfAlphabet++;/* = indexOfAlphabet+1 >= 32 ? 0 : indexOfAlphabet+1*/
         }
 
-        System.out.println("Шаблон алфавита: \t\t\t\t\t" + alphabetTemplate);
-        System.out.println("Шаблон зашифрованного алфавита: \t" + cryptStringTemplate);
+        /*System.out.println("Шаблон алфавита: \t\t\t\t\t" + alphabetTemplate);
+        System.out.println("Шаблон зашифрованного алфавита: \t" + cryptStringTemplate);*/
     }
 
     public String encryptMessage(String message) {

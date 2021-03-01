@@ -6,9 +6,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import service.Encryptor;
 
+import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 
 public class MainView {
@@ -47,6 +53,10 @@ public class MainView {
         String keyword = keywordTextField.getText();
         Encryptor encryptor = new Encryptor(key, keyword);
         resultTextArea.setText(encryptor.encryptMessage(messageTextArea.getText()));
+
+        // копируем в буфер обмена
+        Toolkit.getDefaultToolkit().getSystemClipboard()
+                .setContents(new StringSelection(resultTextArea.getText()), null);
     }
 
     public static Stage newInstance(Stage primaryStage) {
